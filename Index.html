@@ -1,12 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=
-    , initial-scale=1.0">
-    <title>Descrubre a Colombia</title>
+    <title>Colombia: Departamentos y Turismo</title>
+    <style>
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .card { border: 1px solid #ccc; padding: 15px; border-radius: 8px; }
+        .card img { width: 100%; height: 150px; object-fit: cover; border-radius: 4px; }
+        .controls { margin: 20px 0; }
+    </style>
 </head>
 <body>
-    
+    <h1>Explora Colombia</h1>
+
+    <section>
+        <h2>Departamentos (Grupo de 10)</h2>
+        <div class="controls">
+            <button onclick="changePage('dept', -1)">Anterior</button>
+            <span id="page-dept">Página 1</span>
+            <button onclick="changePage('dept', 1)">Siguiente</button>
+        </div>
+        <div id="container-dept" class="grid"></div>
+    </section>
+
+    <section>
+        <h2>Sitios Turísticos (Grupo de 10)</h2>
+        <div class="controls">
+            <button onclick="changePage('tour', -1)">Anterior</button>
+            <span id="page-tour">Página 1</span>
+            <button onclick="changePage('tour', 1)">Siguiente</button>
+        </div>
+        <div id="container-tour" class="grid"></div>
+    </section>
+
+    <script>
+
+        const API_URL = "https://api-colombia.com/api/v1";
+        let deptPage = 1;
+        let tourPage = 1;
+
+        async function fetchDepartments(page) {
+            const res = await fetch(`${API_URL}/Department/pagedList?page=${page}&pageSize=10`);
+            const result = await res.json();
+            const container = document.getElementById('container-dept');
+            container.innerHTML = "";
+
+            result.data.forEach(dept => {
+                container.innerHTML += `
+                    <div class="card">
+                        <h3>${dept.name}</h3>
+                        <p><strong>Capital:</strong> ${dept.cityCapital ? dept.cityCapital.name : 'N/A'}</p>
+                        <p><strong>Región:</strong> ${dept.region ? dept.region.name : 'N/A'}</p>
+                        <p>${dept.description || 'Sin descripción disponible.'}</p>
+                    </div>
+                `;
+            });
+        }
+
+        async function fetchTouristicAttractions(page) {
+            const res = await fetch(`${API_URL}/TouristicAttraction/pagedList?page=${page}&pageSize=20`);
+            const result = await res.json();
+            const container = document.getElementById('container-tour');
+            container.innerHTML = "";
+
+            const filtrados = result.data
+                .filter(place => place.images && place.images.length > 0)
+                .slice(0, 10); // Nos quedamos solo con los primeros 10 que pasaron el filtro
+
+            let content = '';
+
+            filtrados.forEach(place => {
+                const imageUrl = place.images[0] || 'https://via.placeholder.com/300x200?text=Imagen+no+disponible'; // Imagen por defecto
+                content += `
+                    <div class="card">
+                        <img src="${imageUrl}" alt="${place.name}" onerror="this.src='https://via.placeholder.com/300x200?text=Error+al+cargar'">
+                        <h3>${place.name}</h3>
+                        <p><strong>Ciudad:</strong> ${place.city ? place.city.name : 'N/A'}</p>
+                        <p>${place.description || 'Sin descripción.'}</p>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = content; // Asignamos el contenido de una sola vez
+        }
+
+        function changePage(type, delta) {
+            if (type === 'dept') {
+                deptPage = Math.max(1, deptPage + delta);
+                document.getElementById('page-dept').textContent = `Página ${deptPage}`;
+                fetchDepartments(deptPage);
+            } else {
+                tourPage = Math.max(1, tourPage + delta);
+                document.getElementById('page-tour').textContent = `Página ${tourPage}`;
+                fetchTouristicAttractions(tourPage);
+            }
+        }
+
+        // Carga inicial
+        fetchDepartments(deptPage);
+        fetchTouristicAttractions(tourPage);
+
+    </script>
 </body>
 </html>
