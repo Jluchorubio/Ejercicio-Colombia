@@ -3,41 +3,448 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colombia: Departamentos y Sitios Turísticos</title>
+    <title>🇨🇴 Explorador de Colombia | Descubre la Magia de Colombia</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuración de colores personalizados -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'colombia-green': '#1A7F5D',
+                        'colombia-blue': '#0077B6',
+                        'colombia-yellow': '#F9C80E',
+                        'colombia-red': '#CE1126',
+                        'colombia-light': '#F8F9FA',
+                        'travel-blue': '#0A2463',
+                        'travel-teal': '#1A7F5D',
+                        'travel-accent': '#FF6B6B',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'display': ['Montserrat', 'Inter', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "linear-gradient(rgba(10, 36, 99, 0.85), rgba(26, 127, 93, 0.8)), url('https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80')",
+                        'hero-beach': "url('https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80')",
+                        'hero-mountains': "url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80')",
+                        'hero-coffee': "url('https://images.unsplash.com/photo-1442512595331-e89e73853f31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80')",
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Estilos adicionales mínimos para funcionalidades específicas -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="font-sans bg-colombia-light text-gray-800">
+    
+    <!-- Header inspirado en Travel Agency -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/90 backdrop-blur-sm border-b border-gray-100">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-colombia-green to-colombia-blue text-white font-bold text-xl">
+                        🇨🇴
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold bg-gradient-to-r from-travel-blue to-colombia-green bg-clip-text text-transparent">
+                            TravelColombia
+                        </h1>
+                        <p class="text-xs text-gray-500 -mt-1">Explorador Oficial</p>
+                    </div>
+                </div>
+                
+                <!-- Menú de navegación -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#departamentos" class="text-gray-700 hover:text-colombia-green font-medium transition-colors flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                        </svg>
+                        Departamentos
+                    </a>
+                    <a href="#turismo" class="text-gray-700 hover:text-colombia-green font-medium transition-colors flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Sitios Turísticos
+                    </a>
+                    <a href="#mapas" class="text-gray-700 hover:text-colombia-green font-medium transition-colors flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                        </svg>
+                        Mapas
+                    </a>
+                    <div class="flex items-center space-x-4">
+                        <button class="px-6 py-2 rounded-full border-2 border-colombia-green text-colombia-green font-semibold hover:bg-colombia-green hover:text-white transition-all">
+                            Login
+                        </button>
+                        <button class="px-6 py-2 rounded-full bg-gradient-to-r from-colombia-green to-colombia-blue text-white font-semibold hover:shadow-lg transition-all">
+                            Registro
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Menú móvil -->
+                <button class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
 
-    <h1>🇨🇴 Explorador de Colombia</h1>
-
-    <!-- SECCIÓN DEPARTAMENTOS -->
-    <section>
-        <h2>Departamentos</h2>
-        <div class="controls">
-            <button id="btn-dept-prev" onclick="changePage('dept', -1)">Anterior</button>
-            <span id="page-dept">Cargando...</span>
-            <button id="btn-dept-next" onclick="changePage('dept', 1)">Siguiente</button>
+    <!-- Hero Section con efecto parallax -->
+    <div class="relative pt-20">
+        <div class="parallax-hero bg-hero-pattern bg-cover bg-center bg-fixed py-24 md:py-40 px-4 text-white">
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm mb-6">
+                            <span class="inline-block w-3 h-3 rounded-full bg-green-400 mr-2 animate-pulse"></span>
+                            <span class="text-sm font-medium">AGENCIA DE VIAJES OFICIAL</span>
+                        </div>
+                        <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight font-display">
+                            Explora la Magia de <span class="text-colombia-yellow">Colombia</span>
+                        </h1>
+                        <p class="text-xl md:text-2xl mb-8 font-light leading-relaxed max-w-2xl">
+                            Descubre la riqueza cultural, los paisajes impresionantes y la diversidad de los 32 departamentos. Tu aventura inolvidable comienza aquí.
+                        </p>
+                        <div class="flex flex-wrap gap-4 mb-8">
+                            <button class="px-8 py-4 rounded-full bg-gradient-to-r from-colombia-green to-colombia-blue text-white font-semibold hover:shadow-xl transition-all flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                </svg>
+                                Planifica tu Viaje
+                            </button>
+                            <button class="px-8 py-4 rounded-full border-2 border-white text-white font-semibold hover:bg-white hover:text-colombia-green transition-all flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                </svg>
+                                Ver Tours en Video
+                            </button>
+                        </div>
+                        <div class="flex flex-wrap gap-6">
+                            <div class="flex items-center">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm mr-3">
+                                    <span class="text-xl font-bold">32</span>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Departamentos</p>
+                                    <p class="text-sm opacity-80">Para explorar</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm mr-3">
+                                    <span class="text-xl font-bold">100+</span>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Sitios Turísticos</p>
+                                    <p class="text-sm opacity-80">Por descubrir</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm mr-3">
+                                    <span class="text-xl font-bold">24/7</span>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Soporte</p>
+                                    <p class="text-sm opacity-80">Asistencia turística</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Galería de imágenes turísticas -->
+                    <div class="hidden lg:block">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="gallery-item overflow-hidden rounded-2xl shadow-2xl transform rotate-3">
+                                <img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                     alt="Playa en Colombia" 
+                                     class="w-full h-64 object-cover transition-transform duration-500">
+                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                                    <p class="text-white font-semibold">Caribe Colombiano</p>
+                                </div>
+                            </div>
+                            <div class="gallery-item overflow-hidden rounded-2xl shadow-2xl transform -rotate-3 mt-8">
+                                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                     alt="Montañas en Colombia" 
+                                     class="w-full h-64 object-cover transition-transform duration-500">
+                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                                    <p class="text-white font-semibold">Eje Cafetero</p>
+                                </div>
+                            </div>
+                            <div class="gallery-item overflow-hidden rounded-2xl shadow-2xl transform -rotate-2">
+                                <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                     alt="Café colombiano" 
+                                     class="w-full h-64 object-cover transition-transform duration-500">
+                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                                    <p class="text-white font-semibold">Cultura del Café</p>
+                                </div>
+                            </div>
+                            <div class="gallery-item overflow-hidden rounded-2xl shadow-2xl transform rotate-2 mt-8">
+                                <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                     alt="Ciudad colombiana" 
+                                     class="w-full h-64 object-cover transition-transform duration-500">
+                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                                    <p class="text-white font-semibold">Ciudades Vibrantes</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="container-dept" class="grid"></div>
-    </section>
-
-    <!-- SECCIÓN SITIOS TURÍSTICOS -->
-    <section>
-        <h2>Sitios Turísticos (Con Imagen)</h2>
-        <div class="controls">
-            <button id="btn-tour-prev" onclick="changePage('tour', -1)">Anterior</button>
-            <span id="page-tour">Cargando...</span>
-            <button id="btn-tour-next" onclick="changePage('tour', 1)">Siguiente</button>
+        
+        <!-- Forma decorativa en la parte inferior del hero -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-full h-20">
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="currentColor" class="text-colombia-light"></path>
+                <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="currentColor" class="text-colombia-light"></path>
+                <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="currentColor" class="text-colombia-light"></path>
+            </svg>
         </div>
-        <div id="container-tour" class="grid"></div>
-    </section>
+    </div>
 
-    <section>
-    <h2>Mapas de Colombia</h2>
-    <div id="container-maps" class="grid"></div>
-</section>
-
+    <main class="max-w-7xl mx-auto px-4 py-12 md:px-6">
+        
+        <!-- Sección Departamentos -->
+        <section id="departamentos" class="mb-20 md:mb-32 scroll-mt-24">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 font-display">
+                    Nuestros <span class="text-colombia-green">Departamentos</span>
+                </h2>
+                <div class="decorative-line mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-3xl mx-auto text-lg">
+                    Explora la diversidad de los 32 departamentos de Colombia. Cada uno tiene su propia cultura, 
+                    paisajes y tradiciones que te sorprenderán.
+                </p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-10">
+                <div class="mb-6 md:mb-0">
+                    <p class="text-gray-600 max-w-2xl">
+                        Selecciona y descubre la magia de cada región. Navega a través de nuestras páginas para encontrar información detallada.
+                    </p>
+                </div>
+                
+                <!-- Controles de paginación -->
+                <div class="flex items-center space-x-4">
+                    <button id="btn-dept-prev" onclick="changePage('dept', -1)" 
+                        class="px-5 py-3 rounded-full bg-white border border-gray-300 text-gray-700 font-medium hover:bg-colombia-green hover:text-white hover:border-colombia-green transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-700 disabled:hover:border-gray-300 shadow-sm flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        Anterior
+                    </button>
+                    
+                    <div class="flex flex-col items-center">
+                        <span id="page-dept" class="text-lg font-semibold text-colombia-blue">Cargando...</span>
+                        <div class="flex space-x-1 mt-1">
+                            <div class="w-2 h-2 rounded-full bg-gray-300 dept-indicator"></div>
+                            <div class="w-2 h-2 rounded-full bg-gray-300 dept-indicator"></div>
+                            <div class="w-2 h-2 rounded-full bg-gray-300 dept-indicator"></div>
+                        </div>
+                    </div>
+                    
+                    <button id="btn-dept-next" onclick="changePage('dept', 1)" 
+                        class="px-5 py-3 rounded-full bg-colombia-blue text-white font-medium hover:bg-colombia-green transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-colombia-blue shadow-md flex items-center">
+                        Siguiente
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Grid de Departamentos -->
+            <div id="container-dept" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Los departamentos se cargarán aquí dinámicamente -->
+                <div class="col-span-full flex justify-center py-12">
+                    <div class="text-center">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-colombia-green/10 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-colombia-green animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        </div>
+                        <p class="text-gray-500 font-medium">Cargando departamentos...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección Sitios Turísticos -->
+        <section id="turismo" class="mb-20 md:mb-32 scroll-mt-24">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 font-display">
+                    Sitios <span class="text-colombia-yellow">Turísticos</span>
+                </h2>
+                <div class="decorative-line mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-3xl mx-auto text-lg">
+                    Descubre los lugares más impresionantes de Colombia. Desde playas caribeñas hasta montañas andinas, 
+                    cada sitio tiene una historia que contar.
+                </p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-10">
+                <div class="mb-6 md:mb-0">
+                    <p class="text-gray-600 max-w-2xl">
+                        Encuentra los destinos más populares y planifica tu próxima aventura en Colombia.
+                    </p>
+                </div>
+                
+                <!-- Controles de paginación -->
+                <div class="flex items-center space-x-4">
+                    <button id="btn-tour-prev" onclick="changePage('tour', -1)" 
+                        class="px-5 py-3 rounded-full bg-white border border-gray-300 text-gray-700 font-medium hover:bg-colombia-green hover:text-white hover:border-colombia-green transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-700 disabled:hover:border-gray-300 shadow-sm flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        Anterior
+                    </button>
+                    
+                    <div class="flex flex-col items-center">
+                        <span id="page-tour" class="text-lg font-semibold text-colombia-blue">Cargando...</span>
+                        <div class="flex space-x-1 mt-1">
+                            <div class="w-2 h-2 rounded-full bg-gray-300 tour-indicator"></div>
+                            <div class="w-2 h-2 rounded-full bg-gray-300 tour-indicator"></div>
+                            <div class="w-2 h-2 rounded-full bg-gray-300 tour-indicator"></div>
+                        </div>
+                    </div>
+                    
+                    <button id="btn-tour-next" onclick="changePage('tour', 1)" 
+                        class="px-5 py-3 rounded-full bg-colombia-blue text-white font-medium hover:bg-colombia-green transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-colombia-blue shadow-md flex items-center">
+                        Siguiente
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Grid de Sitios Turísticos -->
+            <div id="container-tour" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Los sitios turísticos se cargarán aquí dinámicamente -->
+                <div class="col-span-full flex justify-center py-12">
+                    <div class="text-center">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-colombia-yellow/10 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-colombia-yellow animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        </div>
+                        <p class="text-gray-500 font-medium">Buscando sitios con imágenes...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección Mapas -->
+        <section id="mapas" class="mb-20 scroll-mt-24">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 font-display">
+                    Mapas de <span class="text-colombia-red">Colombia</span>
+                </h2>
+                <div class="decorative-line mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-3xl mx-auto text-lg">
+                    Conoce la geografía de Colombia a través de sus mapas oficiales. Desde división política hasta características físicas.
+                </p>
+            </div>
+            
+            <!-- Grid de Mapas -->
+            <div id="container-maps" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Los mapas se cargarán aquí dinámicamente -->
+                <div class="col-span-full flex justify-center py-12">
+                    <div class="text-center">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-colombia-red/10 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-colombia-red animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        </div>
+                        <p class="text-gray-500 font-medium">Cargando mapas...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="pt-12 mt-20 border-t border-gray-200">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-colombia-green to-colombia-blue text-white font-bold text-lg mr-3">
+                            🇨🇴
+                        </div>
+                        <h3 class="text-xl font-bold text-colombia-green">TravelColombia</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">
+                        Tu guía oficial para explorar la magia, diversidad y riqueza cultural de Colombia.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-colombia-green transition-colors">
+                            <span class="sr-only">Facebook</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-colombia-green transition-colors">
+                            <span class="sr-only">Instagram</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-colombia-green transition-colors">
+                            <span class="sr-only">Twitter</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.213c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-gray-800 mb-4">Explorar</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#departamentos" class="text-gray-600 hover:text-colombia-green transition-colors">Departamentos</a></li>
+                        <li><a href="#turismo" class="text-gray-600 hover:text-colombia-green transition-colors">Sitios Turísticos</a></li>
+                        <li><a href="#mapas" class="text-gray-600 hover:text-colombia-green transition-colors">Mapas</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-colombia-green transition-colors">Tours Guiados</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-gray-800 mb-4">Servicios</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 hover:text-colombia-green transition-colors">Planificación de Viajes</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-colombia-green transition-colors">Alojamiento</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-colombia-green transition-colors">Transporte</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-colombia-green transition-colors">Guías Turísticos</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-gray-800 mb-4">Contacto</h4>
+                    <ul class="space-y-2">
+                        <li class="text-gray-600">+57 1 234 5678</li>
+                        <li class="text-gray-600">info@travelcolombia.co</li>
+                        <li class="text-gray-600">Bogotá, Colombia</li>
+                        <li class="text-gray-600">Soporte 24/7</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center text-gray-400 text-sm pt-6 border-t border-gray-100">
+                <p>Datos proporcionados por la API de Colombia - TravelColombia © 2023 Todos los derechos reservados</p>
+            </div>
+        </footer>
+    </main>
 <script src="script.js"></script>
+
 </body>
 </html>
-
