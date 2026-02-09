@@ -50,6 +50,11 @@
         <div id="container-tour" class="grid"></div>
     </section>
 
+    <section>
+    <h2>Mapas de Colombia</h2>
+    <div id="container-maps" class="grid"></div>
+</section>
+
     <script>
         const API_URL = "https://api-colombia.com/api/v1";
 
@@ -184,6 +189,39 @@
         // Carga inicial al abrir la página
         fetchDepartments(deptPage);
         fetchTouristicAttractions(tourPage);
+
+        async function fetchMaps() {
+    const container = document.getElementById('container-maps');
+    container.innerHTML = '<p class="loading">Cargando mapas...</p>';
+
+    // Consumimos el endpoint de mapas
+    const maps = await safeFetch(`${API_URL}/Map`);
+
+    if (maps) {
+        container.innerHTML = "";
+        // Mostraremos los primeros 3 mapas (ej: Político, Físico, etc.)
+        maps.slice(0, 3).forEach(map => {
+            // Tomamos la primera imagen del arreglo urlImages
+            const mapImg = map.urlImages && map.urlImages.length > 0 ? map.urlImages[0] : '';
+            
+            container.innerHTML += `
+                <div class="card">
+                    <img src="${mapImg}" alt="${map.name}" style="height: 300px; object-fit: contain; background: #fff;">
+                    <div class="card-body">
+                        <h3>${map.name}</h3>
+                        <p>${map.description || 'Mapa oficial de la República de Colombia.'}</p>
+                        <a href="${mapImg}" target="_blank" class="tag" style="text-decoration:none">Ver en tamaño completo</a>
+                    </div>
+                </div>`;
+        });
+    } else {
+        container.innerHTML = '<p class="error-msg">No se pudieron cargar los mapas.</p>';
+    }
+}
+
+// No olvides llamar a la función al inicio
+fetchMaps();
+
 
     </script>
 </body>
