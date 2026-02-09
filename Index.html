@@ -34,56 +34,101 @@
     </section>
 
     <script>
-
         const API_URL = "https://api-colombia.com/api/v1";
         let deptPage = 1;
         let tourPage = 1;
 
+        // Función para obtener los departamentos con detalles completos
         async function fetchDepartments(page) {
-            const res = await fetch(`${API_URL}/Department/pagedList?page=${page}&pageSize=10`);
-            const result = await res.json();
             const container = document.getElementById('container-dept');
-            container.innerHTML = "";
+            container.innerHTML = "Cargando departamentos..."; // Feedback visual de que estamos cargando.
 
-            result.data.forEach(dept => {
-                container.innerHTML += `
-                    <div class="card">
-                        <h3>${dept.name}</h3>
-                        <p><strong>Capital:</strong> ${dept.cityCapital ? dept.cityCapital.name : 'N/A'}</p>
-                        <p><strong>Región:</strong> ${dept.region ? dept.region.name : 'N/A'}</p>
-                        <p>${dept.description || 'Sin descripción disponible.'}</p>
-                    </div>
-                `;
-            });
+            try {
+                // 1. Obtenemos la lista paginada de departamentos
+                const res = await fetch(`${API_URL}/Department/pagedList?page=${page}&pageSize=10`);
+                if (!res.ok) throw new Error('No se pudo obtener la lista de departamentos');
+                const result = await res.json();
+
+                // 2. Obtenemos el detalle de cada uno para traer 'cityCapital' y 'region'
+                const detailedDepts = await Promise.all(
+                    result.data.map(async (dept) => {
+                        const detailRes = await fetch(`${API_URL}/Department/${dept.id}`);
+                        const detail = await detailRes.json();
+                        // Obtener la región y la ciudad capital directamente
+                        const regionRes = await fetch(`${API_URL}/Region/${detail.regionId}`);
+                        const region = await regionRes.json();
+                        const cityRes = await fetch(`${API_URL}/City/${detail.cityCapitalId}`);
+                        const city = await cityRes.json();
+                        return { ...detail, region, cityCapital: city };
+                    })
+                );
+
+                container.innerHTML = ""; // Limpiamos el contenedor de "Cargando..."
+
+                // 3. Añadimos los detalles de cada departamento al DOM
+                detailedDepts.forEach(dept => {
+                    container.innerHTML += `
+                        <div class="card">
+                            <h3>${dept.name}</h3>
+                            <p><strong>Capital:</strong> ${dept.cityCapital ? dept.cityCapital.name : 'No disponible'}</p>
+                            <p><strong>Región:</strong> ${dept.region ? dept.region.name : 'No disponible'}</p>
+                            <p>${dept.description || 'Sin descripción disponible.'}</p>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                // Si algo falla, mostramos un mensaje de error
+                container.innerHTML = `<p>Hubo un error al cargar los departamentos: ${error.message}</p>`;
+            }
         }
 
+        // Función para obtener las atracciones turísticas con imágenes y ciudad
         async function fetchTouristicAttractions(page) {
-            const res = await fetch(`${API_URL}/TouristicAttraction/pagedList?page=${page}&pageSize=20`);
-            const result = await res.json();
             const container = document.getElementById('container-tour');
-            container.innerHTML = "";
+            container.innerHTML = "Cargando sitios..."; // Feedback visual de que estamos cargando.
 
-            const filtrados = result.data
-                .filter(place => place.images && place.images.length > 0)
-                .slice(0, 10); // Nos quedamos solo con los primeros 10 que pasaron el filtro
+            try {
+                const res = await fetch(`${API_URL}/TouristicAttraction/pagedList?page=${page}&pageSize=20`);
+                if (!res.ok) throw new Error('No se pudo obtener los sitios turísticos');
+                const result = await res.json();
 
-            let content = '';
+                // 1. Filtramos los sitios que tienen imágenes
+                const conImagen = result.data.filter(p => p.images && p.images.length > 0).slice(0, 10);
 
-            filtrados.forEach(place => {
-                const imageUrl = place.images[0] || 'https://via.placeholder.com/300x200?text=Imagen+no+disponible'; // Imagen por defecto
-                content += `
-                    <div class="card">
-                        <img src="${imageUrl}" alt="${place.name}" onerror="this.src='https://via.placeholder.com/300x200?text=Error+al+cargar'">
-                        <h3>${place.name}</h3>
-                        <p><strong>Ciudad:</strong> ${place.city ? place.city.name : 'N/A'}</p>
-                        <p>${place.description || 'Sin descripción.'}</p>
-                    </div>
-                `;
-            });
+                // 2. Obtenemos el detalle para traer el nombre de la ciudad
+                const detailedPlaces = await Promise.all(
+                    conImagen.map(async (place) => {
+                        const detailRes = await fetch(`${API_URL}/TouristicAttraction/${place.id}`);
+                        const detail = await detailRes.json();
+                        const cityRes = await fetch(`${API_URL}/City/${detail.cityId}`);
+                        const city = await cityRes.json();
+                        return { ...detail, city };
+                    })
+                );
 
-            container.innerHTML = content; // Asignamos el contenido de una sola vez
+                container.innerHTML = ""; // Limpiamos el contenedor
+
+                // 3. Añadimos los detalles de cada sitio turístico al DOM
+                detailedPlaces.forEach(place => {
+                    const cityName = place.city ? place.city.name : 'Ciudad no disponible'; // Si la ciudad no está disponible
+                    const imageUrl = place.images[0] || 'https://via.placeholder.com/300x200?text=Imagen+no+disponible'; // Imagen por defecto
+
+                    container.innerHTML += `
+                        <div class="card">
+                            <img src="${imageUrl}" alt="${place.name}" onerror="this.src='https://via.placeholder.com/300x200?text=Error+al+cargar'">
+                            <h3>${place.name}</h3>
+                            <p><strong>Ciudad:</strong> ${cityName}</p>
+                            <p>${place.description || 'Sin descripción.'}</p>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                // Si algo falla, mostramos un mensaje de error
+                container.innerHTML = `<p>Hubo un error al cargar los sitios turísticos: ${error.message}</p>`;
+            }
         }
 
+        // Función para manejar la paginación
         function changePage(type, delta) {
             if (type === 'dept') {
                 deptPage = Math.max(1, deptPage + delta);
@@ -96,10 +141,11 @@
             }
         }
 
-        // Carga inicial
+        // Carga inicial de los datos
         fetchDepartments(deptPage);
         fetchTouristicAttractions(tourPage);
 
     </script>
 </body>
 </html>
+
